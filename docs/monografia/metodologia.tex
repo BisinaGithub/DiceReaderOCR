@@ -1,0 +1,59 @@
+\section{Metodologia}
+
+Esta seção descreve os procedimentos adotados para o desenvolvimento do modelo de reconhecimento automático de valores em dados de RPG utilizando redes neurais convolucionais (CNNs). Inicialmente, foram conduzidos testes com uma base de dados pública, composta por imagens de cães e gatos, a fim de validar a arquitetura da rede e o fluxo de processamento. Em seguida, planejou-se a criação de uma base própria com dados de RPG, respeitando aspectos como visibilidade das faces e condições variadas de iluminação.
+
+\subsection{Ambiente de Desenvolvimento}
+
+O modelo foi desenvolvido utilizando a biblioteca TensorFlow, com a API \texttt{tf.keras}, em um ambiente baseado em Jupyter Notebook. O código foi escrito em Python 3. A execução dos experimentos foi realizada em uma máquina com suporte a GPU, utilizando bibliotecas auxiliares como NumPy, Matplotlib e scikit-learn.
+
+\subsection{Base de Dados Inicial}
+
+Para os testes preliminares, utilizou-se uma base pública contendo imagens rotuladas de cães e gatos, com distribuição balanceada entre as classes. Essa base serviu para a validação da arquitetura inicial da CNN e do pipeline de treinamento. As imagens foram redimensionadas para $180 \times 180$ pixels, com normalização dos valores de pixel no intervalo $[0, 1]$.
+
+\subsection{Arquitetura da Rede Neural Convolucional}
+
+A rede neural convolucional desenvolvida neste trabalho foi projetada para realizar tarefas de classificação de imagens com eficiência e baixa complexidade. A seguir, apresenta-se a descrição da arquitetura utilizada para o problema inicial de classificação binária (gato ou cachorro).
+
+\begin{itemize}
+    \item \textbf{Pré-processamento:} A primeira camada realiza a normalização dos valores dos pixels, convertendo-os para o intervalo $[0, 1]$ através da operação \texttt{Rescaling(1./255)}.
+    
+    \item \textbf{Camada Convolucional 1:} \texttt{Conv2D} com 16 filtros, tamanho de kernel $3 \times 3$, ativação \texttt{ReLU} e preenchimento \texttt{same}, mantendo a dimensão espacial.
+    
+    \item \textbf{Max Pooling 1:} \texttt{MaxPooling2D}, responsável por reduzir a dimensionalidade da imagem.
+    
+    \item \textbf{Camada Convolucional 2:} \texttt{Conv2D} com 32 filtros e mesmas configurações da primeira camada convolucional.
+    
+    \item \textbf{Max Pooling 2:} Segunda operação de \texttt{MaxPooling2D}.
+    
+    \item \textbf{Camada Convolucional 3:} \texttt{Conv2D} com 64 filtros.
+    
+    \item \textbf{Max Pooling 3:} Redução final da dimensionalidade espacial.
+    
+    \item \textbf{Camada de Achplanamento:} \texttt{Flatten}, transforma a saída tridimensional em um vetor unidimensional.
+    
+    \item \textbf{Camada Densa Oculta:} \texttt{Dense} com 128 unidades e ativação \texttt{ReLU}.
+    
+    \item \textbf{Camada de Saída:} \texttt{Dense(1)} com ativação \texttt{sigmoid}, utilizada para classificar a imagem entre duas classes.
+\end{itemize}
+
+A rede foi compilada com os seguintes parâmetros:
+
+\begin{itemize}
+    \item \textbf{Otimizador:} Adam, com taxa de aprendizado de 0{,}001.
+    \item \textbf{Função de perda:} \texttt{binary\_crossentropy}.
+    \item \textbf{Métrica:} Acurácia.
+\end{itemize}
+
+A Figura~\ref{fig:modelo-cnn} apresenta um diagrama ilustrativo da arquitetura da CNN descrita.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/cnn_arquitetura.png}
+    \caption{Arquitetura da CNN para classificação binária de imagens.}
+    \label{fig:modelo-cnn}
+\end{figure}
+
+\subsection{Planejamento da Base de Dados de RPG}
+
+O próximo passo do projeto envolve a construção de uma base de imagens contendo fotos reais de dados de RPG, priorizando faces de fácil visualização. Decidiu-se evitar o uso de dados tetraédricos (como o d4), pois a face superior nem sempre é bem definida visualmente. Pretende-se focar em dados como d6, d8, d10, d12 e d20, capturando múltiplas fotos de cada valor possível, em diferentes condições de iluminação e ângulos. A arquitetura será ajustada para lidar com múltiplas classes conforme o dado utilizado (por exemplo, 12 classes para um d12).
+
