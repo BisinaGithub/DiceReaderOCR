@@ -1,3 +1,7 @@
 /data/**
 venv/
 .ipynb_checkpoints/
+
+/docs/monografia/build/*
+!/docs/monografia/build/main.pdf
+/docs/monografia/figuras/*
