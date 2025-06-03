@@ -44,16 +44,27 @@ A rede foi compilada com os seguintes parâmetros:
     \item \textbf{Métrica:} Acurácia.
 \end{itemize}
 
-A Figura~\ref{fig:modelo-cnn} apresenta um diagrama ilustrativo da arquitetura da CNN descrita.
+A Figura~\ref{fig:modelo-cnn} apresenta um diagrama ilustrativo inspirado na arquitetura LeNet-5, 
+um dos modelos de redes neurais convolucionais mais clássicos, proposto por LeCun et al. (1998) para 
+reconhecimento de dígitos manuscritos. Embora a estrutura exata da rede implementada neste trabalho difira em 
+termos de parâmetros, profundidade e dimensionalidade das entradas, o diagrama é representativo do fluxo de 
+processamento típico de uma CNN: camadas de convolução seguidas por subamostragem (pooling), camadas densas 
+totalmente conectadas e uma camada final com função de ativação \textit{softmax} para classificação multiclasse.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{figuras/cnn_arquitetura.png}
-    \caption{Arquitetura da CNN para classificação binária de imagens.}
+    \includegraphics[width=0.9\textwidth]{figuras/CNN-architecture.png}
+    \caption{Esquema conceitual da arquitetura de uma CNN, inspirado na LeNet-5 \cite{lecun1998gradient}.}
     \label{fig:modelo-cnn}
 \end{figure}
 
+
 \subsection{Planejamento da Base de Dados de RPG}
 
-O próximo passo do projeto envolve a construção de uma base de imagens contendo fotos reais de dados de RPG, priorizando faces de fácil visualização. Decidiu-se evitar o uso de dados tetraédricos (como o d4), pois a face superior nem sempre é bem definida visualmente. Pretende-se focar em dados como d6, d8, d10, d12 e d20, capturando múltiplas fotos de cada valor possível, em diferentes condições de iluminação e ângulos. A arquitetura será ajustada para lidar com múltiplas classes conforme o dado utilizado (por exemplo, 12 classes para um d12).
+O próximo passo do projeto envolve a construção de uma base de imagens contendo fotos reais de dados de RPG, 
+priorizando faces de fácil visualização. Decidiu-se evitar o uso de dados tetraédricos (como o d4), 
+pois a face superior nem sempre é bem definida visualmente. Pretende-se focar em dados 
+como d6, d8, d10, d12 e d20, capturando múltiplas fotos de cada valor possível, em diferentes condições 
+de iluminação e ângulos. A arquitetura será ajustada para lidar com múltiplas classes conforme o dado 
+utilizado (por exemplo, 12 classes para um d12).
 
