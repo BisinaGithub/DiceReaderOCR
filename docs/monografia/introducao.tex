@@ -4,7 +4,7 @@ Os jogos de interpretação de papéis (Role-Playing Games - RPGs) têm conquist
 como forma de entretenimento, mas também como ferramenta pedagógica, terapêutica e social. Desde o lançamento
 de \textit{Dungeons \& Dragons} em 1974, o RPG se consolidou como um gênero de jogos que une imaginação, 
 cooperação e raciocínio lógico, promovendo experiências imersivas onde os jogadores atuam em conjunto na 
-construção de narrativas.  \cite{peterson2012playing} \cite{hitchens2007roleplaying}.
+construção de narrativas.  \cite{peterson2012playing,hitchens2007roleplaying}
 
 Uma das características marcantes desses jogos é o uso de dados físicos para determinar sucessos ou fracassos
 de determinadas ações, como ataques, testes de habilidade ou eventos aleatórios, e, diferentemente dos jogos 
@@ -12,7 +12,7 @@ de tabuleiro convencionais, o RPG utiliza-se de uma diversidade de dados poliéd
 — como d4, d6, d8, d10, d12 e d20 — que ampliam a variação probabilística das ações dos jogadores e tornam 
 o jogo mais dinâmico e imprevisível. Além de sua usabilidade, esses dados se tornaram símbolos da cultura 
 RPGista, muitas vezes personalizados com diferentes materiais, cores e gravuras, ou até eternizados em tatuagens, 
-obras artísticas e coleções, reforçando o vínculo afetivo entre jogador e dado.
+obras artísticas e coleções, reforçando o vínculo afetivo entre jogador e dado.\cite{hitchens2007roleplaying}
 
 Apesar do crescimento de plataformas digitais que oferecem alternativas de rolagem automatizada, como
 \textit{Roll20} ou \textit{Foundry VTT}, e até comandos de rolagem em bots de Discord, muitos jogadores ainda
@@ -20,7 +20,7 @@ preferem o uso dos dados físicos. Essa preferência se deve tanto ao valor simb
 objetos quanto à percepção de que a aleatoriedade física é mais justa ou autêntica do que a gerada 
 computacionalmente. O som do dado rolando, o toque, o peso e até o suspense visual da face superior prestes a 
 ser revelada são elementos sensoriais que contribuem para a ambientação do jogo e tornam a experiência 
-mais sensorial, orgânica e memorável.
+mais sensorial, orgânica e memorável. \cite{zagal2017role}
 
 No entanto, essa escolha estética e emocional traz um desafio prático. Em sessões que envolvem múltiplas
 rolagens com dados, que muitas vezes podem conter múltiplos dados simultâneos — como testes de dano, ataques 
@@ -31,9 +31,10 @@ os números e resultando que dezenas de dados acabem sendo lançados ao mesmo te
 a perda de fluidez entre ação e contagem numérica pode comprometer a imersão da experiência e gerar frustrações.
 
 A crescente demanda por ferramentas que otimizem o tempo de jogo sem abrir mão da experiência de rolagem física
- motivou este trabalho, que propõe uma solução baseada em visão computacional para automatizar a leitura visual dos
+motivou este trabalho, que propõe uma solução baseada em visão computacional para automatizar a leitura visual dos
 dados físicos durante uma rolagem, mantendo o aspecto tradicional do RPG com os dados físicos enquanto melhora 
-a fluidez narrativa das sessões através da velocidade que um cálculo automático pode trazer.
+a fluidez narrativa das sessões através da velocidade que um cálculo automático pode trazer. 
+\cite{szeliski2010computer,ibm_cnn,datacamp_cnn}
 
 A Figura~\ref{fig:dados-rpg} ilustra alguns exemplos de dados utilizados em sistemas de RPG, destacando a
 variedade de formatos e faces numéricas. Essa diversidade, embora enriqueça o jogo, representa também uma
@@ -43,56 +44,86 @@ dificuldade computacional para quem deseja automatizar a leitura desses elemento
     \centering
     \includegraphics[width=0.8\textwidth]{figuras/rpg-dice.JPG}
     \caption[Exemplos de dados poliédricos utilizados em jogos de RPG.]{%
-    Exemplos de dados poliédricos utilizados em jogos de RPG.\\
+    \centering
+    Exemplos de dados poliédricos utilizados em jogos de RPG.\par
     \textit{Foto por Danielly Vitória Rodrigues, 2025.}}
     \label{fig:dados-rpg}
 \end{figure}
 
--------------------------------------------------------------------------------------------------------------
-Neste contexto, este trabalho propõe o desenvolvimento de um sistema capaz de reconhecer automaticamente os
-valores das faces superiores de dados de RPG físicos, a partir de imagens capturadas em tempo real. A proposta
-envolve o uso de técnicas de visão computacional e aprendizado profundo, com foco na aplicação de Redes Neurais
-Convolucionais (CNNs), conhecidas por sua eficiência no reconhecimento de padrões visuais em imagens
-\cite{lecun1998gradient, ibm_cnn, datacamp_cnn}.
+Partindo deste contexto, este trabalho tem como objetivo analisar a viabilidade do uso de Redes Neurais 
+Convolucionais (CNNs) para o reconhecimento automático dos valores presentes nas faces superiores 
+de dados físicos utilizados em jogos de RPG, a partir de um banco de imagens previamente separado e 
+categorizado conforme o valor exibido na face superior dos dados. 
+A proposta envolve o desenvolvimento e a avaliação experimental de um modelo de classificação multiclasse 
+baseado em técnicas de visão computacional e aprendizado profundo, com foco na análise de seu desempenho 
+em condições práticas simuladas. Para isso, será utilizada uma arquitetura de Rede Neural Convolucional (CNN) 
+composta por múltiplas camadas convolucionais e de pooling, seguidas por camadas densas e uma camada de saída 
+com função de ativação \textit{softmax}, adequada ao reconhecimento de múltiplas classes de saída — 
+correspondentes aos valores possíveis nas faces dos dados de RPG. As CNNs foram escolhidas por demonstrarem
+bastante eficiência em tarefas de reconhecimento de padrões visuais, especialmente em imagens, especialmente 
+onde existem cenários com variação de iluminação, ângulo, cor e textura. 
+\cite{lecun1998gradient, goodfellow2016deep}
 
-As CNNs têm se destacado em áreas como reconhecimento facial, diagnóstico por imagem, leitura de placas
-veiculares e OCR (Reconhecimento Óptico de Caracteres), sendo aplicadas com sucesso em contextos que exigem
-robustez, acurácia e capacidade de generalização \cite{lecun1998gradient, goodfellow2016deep}. Sua estrutura
-em camadas permite a extração hierárquica de características visuais, o que torna essa arquitetura ideal para
-o reconhecimento de símbolos, números ou formas em objetos tridimensionais como os dados de RPG, mesmo sob
-condições variadas de iluminação, ângulo ou resolução.
+As Redes Neurais Convolucionais (CNNs) têm seu destaque em diversas áreas da inteligência artificial, como 
+reconhecimento facial, diagnósticos por imagem, leitura de placas de veículos e OCR (Reconhecimento Óptico 
+de Caracteres), sendo utilizadas amplamente devido ao seu sucesso em contextos que exigem robustez, 
+acurácia e capacidade de generalização \cite{lecun1998gradient, goodfellow2016deep}. Por ter várias camadas 
+organizadas em etapas, essa arquitetura consegue identificar detalhes visuais em diferentes níveis, o que a 
+torna muito eficaz para reconhecer símbolos, números e formas em objetos tridimensionais. — como os dados 
+físicos utilizados em jogos de RPG — mesmo sob condições variáveis de iluminação, ângulo ou resolução.
 
-A motivação principal para este estudo decorre da própria experiência do autor enquanto mestre de RPG, tendo
-observado a frequência com que os jogadores optam pelos dados físicos mesmo diante de soluções digitais. Essa
-escolha, embora compreensível, introduz uma fricção significativa no andamento das sessões, especialmente
-quando são rolados diversos dados simultaneamente. Automatizar a leitura visual desses dados representa uma
-solução que respeita a tradição do jogo físico e, ao mesmo tempo, introduz uma camada de eficiência
-tecnológica à experiência.
+A principal motivação para o desenvolvimento deste estudo nasce da vivência pessoal do autor como mestre de RPG, 
+especialmente ao observar, ao longo de diversas sessões, a forte preferência dos jogadores pelo uso de dados 
+físicos. Mesmo com a ampla oferta de ferramentas digitais que simulam rolagens de forma prática e eficiente, 
+é comum notar que muitos jogadores ainda optam pelos dados reais, seja pelo apego emocional, a sensação de adrenalina
+e expectativa ao rolar um dado, ou pela conexão simbólica que esses objetos representam dentro da cultura do RPG.
+No entanto, essa escolha, apesar de compreensível e até esperada, pode acabar trazendo desafios durante o jogo, 
+principalmente em momentos em que múltiplos dados são rolados ao mesmo tempo. Nessas situações, a contagem 
+manual dos resultados tende a consumir um tempo precioso, além de estar sujeita a erros que podem comprometer 
+a precisão e, por consequência, a imersão e o ritmo narrativo da partida. Dessa forma, automatizar esse 
+processo de leitura dos valores nos dados físicos surge como uma solução equilibrada: respeita e preserva a 
+tradição dos jogos de mesa, mas aproveita os recursos da tecnologia para tornar a experiência mais fluida, 
+dinâmica e eficiente para todos os participantes.
 
-Essa proposta também dialoga com avanços recentes na integração de tecnologias assistivas e aplicações de
-visão computacional em tempo real. Sistemas de OCR, por exemplo, já são amplamente utilizados para converter
-textos em papel para formatos digitais editáveis. Da mesma forma, um sistema capaz de interpretar os
-resultados de dados físicos em tempo real pode se tornar uma ferramenta de apoio para mestres e jogadores,
-especialmente em partidas online ou híbridas, onde o compartilhamento visual dos dados é necessário.
+Essa proposta também se alinha com os avanços mais recentes no uso de sistemas de visão computacional, com 
+destaque para o aumento da sua adesão em tecnologias assistivas. Um bom exemplo disso são os sistemas 
+de reconhecimento óptico de caracteres (OCR), que hoje já são amplamente utilizados na conversão de documentos 
+físicos em versões digitais editáveis, com uma precisão invejável. De forma semelhante, desenvolver um sistema 
+capaz de identificar automaticamente os números presentes nas faces superiores dos dados físicos representa uma 
+aplicação com potencial promissor. Tal recurso pode funcionar como uma importante ferramenta de apoio tanto para
+mestres quanto para jogadores, especialmente para aquelas sessões realizadas de forma online ou híbrida, onde
+a visualização e validação das rolagens físicas continua sendo valorizada como parte da experiência principal.
 
-Dessa forma, o objetivo geral deste trabalho é desenvolver e treinar um modelo baseado em redes neurais
-convolucionais capaz de reconhecer, com alto grau de acurácia, os valores apresentados nas faces superiores
-de dados de RPG a partir de imagens. Para isso, propõe-se:
+Com base nas necessidades identificadas ao longo da experiência prática com jogos de RPG de mesa, este trabalho 
+tem como objetivo principal o desenvolvimento e a avaliação de um modelo computacional, fundamentado em redes 
+neurais convolucionais (CNNs), capaz de reconhecer os valores exibidos nas faces superiores de dados físicos. 
+Essa identificação será realizada a partir da análise de um conjunto de imagens previamente coletado e 
+devidamente categorizado.
+
+Para atingir esse objetivo, propõe-se então a execução das seguintes etapas:
 
 \begin{itemize}
-    \item Elaborar um conjunto de dados composto por imagens de dados de RPG físicos,
-          simulando diferentes condições de iluminação, ângulo e tipo de dado;
-    \item Projetar e treinar uma arquitetura de CNN apropriada à tarefa de
-          classificação visual dos dados;
-    \item Avaliar a acurácia e o desempenho do modelo em situações práticas simuladas;
-    \item Validar o potencial de aplicação da tecnologia em mesas de RPG reais.
+\item Construção de um banco de dados composto por imagens de diversos tipos de dados de RPG, capturadas sob 
+diferentes ângulos de visão, exibindo valores diversos em sua face superior com o intuito de refletir a 
+variabilidade presente em situações reais;
+\item Projeção e treinamento de uma arquitetura de rede neural convolucional voltada especificamente para a 
+tarefa de classificação multiclasse dos valores numéricos visíveis nas imagens;
+\item  Avaliação do desempenho do modelo utilizando métricas quantitativas, como acurácia e taxa de erro, 
+considerando diferentes cenários simulados;
+\item Discussão voltada tanto à avaliação da aplicabilidade prática do sistema em sessões de RPG, quanto à 
+identificação de pontos de melhoria e caminhos possíveis para o aprimoramento e a evolução do projeto em 
+versões futuras.
 \end{itemize}
 
-A proposta aqui desenvolvida parte, portanto, de uma necessidade prática observada em mesas de RPG e da
-possibilidade de utilizar técnicas modernas de aprendizado profundo para otimizar o reconhecimento visual de
-dados físicos. Ao longo do trabalho, são apresentados os fundamentos teóricos necessários, a metodologia de
-desenvolvimento adotada, os resultados obtidos e, por fim, as conclusões e perspectivas futuras que surgem a
-partir desta iniciativa.
+A proposta citada parte, portanto, da oportunidade avaliada pela observaçã de uma limitação no uso dos dados físicos 
+em sessões de RPG, propondo o uso de técnicas de aprendizado profundo como uma solução inovadora. 
+Ao longo do trabalho, serão apresentados os fundamentos teóricos que embasam o projeto, a metodologia adotada para 
+construção e validação do modelo, os resultados experimentais obtidos e, por fim, as considerações finais e 
+sugestões para futuras melhorias.
+
+
+\vspace{1cm}
+DAQUI PRA BAIXO NÃO TEM NADA NOVO
 
 
 \section{Fundamentação Teórica}
