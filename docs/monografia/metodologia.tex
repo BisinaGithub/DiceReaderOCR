@@ -1,48 +1,82 @@
-\section{Metodologia}
+\section{Metodologia }
 
-Esta seção descreve os procedimentos adotados para o desenvolvimento do modelo de reconhecimento automático de valores em dados de RPG utilizando redes neurais convolucionais (CNNs). Inicialmente, foram conduzidos testes com uma base de dados pública, composta por imagens de cães e gatos, a fim de validar a arquitetura da rede e o fluxo de processamento. Em seguida, planejou-se a criação de uma base própria com dados de RPG, respeitando aspectos como visibilidade das faces e condições variadas de iluminação.
+Este capítulo descreve os materiais e os métodos empregados no desenvolvimento do presente trabalho, 
+com foco na estruturação do conjunto de dados, no processamento das imagens, no modelo de rede neural 
+convolucional utilizado e nas estratégias de treinamento e validação do classificador. As decisões 
+adotadas ao longo do processo são justificadas com base na realidade do projeto e nas limitaçães 
+observadas durante a execução experimental.
 
-\subsection{Ambiente de Desenvolvimento}
+\subsection{Coleta e Estruturação do Conjunto de Dados}
+Para a realização dos testes, foi construído um conjunto de imagens próprio contendo fotografias de dados 
+físicos utilizados em jogos de RPG. As imagens foram capturadas em estúdio fotográfico, com auxílio da
+profissional Danielly Vitória Rodrigues, garantindo qualidade adequada de resolução, iluminação e enquadramento.
 
-O modelo foi desenvolvido utilizando a biblioteca TensorFlow, com a API \texttt{tf.keras}, em um ambiente baseado em Jupyter Notebook. O código foi escrito em Python 3. A execução dos experimentos foi realizada em uma máquina com suporte a GPU, utilizando bibliotecas auxiliares como NumPy, Matplotlib e scikit-learn.
+As imagens foram organizadas em pastas segundo os valores visíveis nas faces superiores dos dados, 
+totalizando inicialmente 10 classes: \textit{0\_zero} até \textit{9\_nine}. Cada uma dessas pastas 
+continha subpastas correspondentes aos diferentes tipos de dados (ex.: d4, d6, d8, d10)\,. 
+Essa estrutura permitiu manter a diversidade de formatos dentro de cada valor, simulando 
+condições reais de uso.
 
-\subsection{Base de Dados Inicial}
+Entretanto, durante a análise da distribuição dos dados, foi observado que as classes 
+\textit{0\_zero} até \textit{9\_nine} possuíam um número significativamente inferior de 
+imagens em relação às demais. Essa escassez comprometia a representatividade estatística 
+e a robustez do treinamento, além de aumentar o risco de viés ou sobreajuste da rede.
 
-Para os testes preliminares, utilizou-se uma base pública contendo imagens rotuladas de cães e gatos, com distribuição balanceada entre as classes. Essa base serviu para a validação da arquitetura inicial da CNN e do pipeline de treinamento. As imagens foram redimensionadas para $180 \times 180$ pixels, com normalização dos valores de pixel no intervalo $[0, 1]$.
+Por essa razão, optou-se por restringir o escopo do modelo inicial às classes 
+\textbf{1 a 8}, que apresentavam uma quantidade razoável de imagens (acima de 80 
+amostras por classe no total). As classes excluídas foram mantidas como 
+possibilidade para expansão futura do projeto, mediante a ampliação da base.
+
+\subsection{Processamento de Imagens}
+
+Todas as imagens passaram por uma etapa de pré-processamento com o objetivo de remover 
+espaços em branco ao redor dos dados e padronizar o formato das entradas. O processamento incluiu:
+
+\begin{itemize}
+\item \textbf{Corte absoluto}: Remoção de bordas fixas nas extremidades superior, inferior, 
+esquerda e direita da imagem, mantendo foco no dado centralizado;
+\item \textbf{Redimensionamento}: Ajuste da imagem para dimensões fixas de 160x160 pixels, 
+facilitando a entrada na rede convolucional;
+\item \textbf{Conversão RGB}: Padronização do canal de cor para compatibilidade com bibliotecas 
+de visão computacional;
+\end{itemize}
+
+Esse tratamento foi realizado utilizando a biblioteca OpenCV. As imagens processadas foram salvas 
+em pastas separadas para treino e validação.
+\subsection{Divisão em Treinamento e Validação}
+
+Para cada uma das classes (1 a 8)\,, as imagens foram embaralhadas e divididas em 80\% para 
+treinamento e 20\% para validação. A divisão foi feita com semente fixa para garantir 
+reprodutibilidade. Devido ao tamanho limitado do dataset, optou-se por não subdividir o 
+conjunto de validação em um conjunto adicional de teste. Essa decisão visa manter uma 
+quantidade mínima de imagens por classe nas avaliaçães, evitando séries com menos de cinco amostras.
+
+Para futuros trabalhos, recomenda-se a coleta de um novo conjunto independente de imagens para 
+testes finais e validação cruzada do modelo.
 
 \subsection{Arquitetura da Rede Neural Convolucional}
 
-A rede neural convolucional desenvolvida neste trabalho foi projetada para realizar tarefas de classificação de imagens com eficiência e baixa complexidade. A seguir, apresenta-se a descrição da arquitetura utilizada para o problema inicial de classificação binária (gato ou cachorro).
+A arquitetura da Rede Neural Convolucional (CNN) utilizada neste trabalho foi projetada para equilibrar 
+capacidade de extração de características e simplicidade estrutural, considerando a dimensão relativamente 
+pequena do conjunto de dados e o objetivo de classificação multiclasse (valores de 1 a 8). A estrutura final consiste em:
 
 \begin{itemize}
-    \item \textbf{Pré-processamento:} A primeira camada realiza a normalização dos valores dos pixels, convertendo-os para o intervalo $[0, 1]$ através da operação \texttt{Rescaling(1./255)}.
-    
-    \item \textbf{Camada Convolucional 1:} \texttt{Conv2D} com 16 filtros, tamanho de kernel $3 \times 3$, ativação \texttt{ReLU} e preenchimento \texttt{same}, mantendo a dimensão espacial.
-    
-    \item \textbf{Max Pooling 1:} \texttt{MaxPooling2D}, responsável por reduzir a dimensionalidade da imagem.
-    
-    \item \textbf{Camada Convolucional 2:} \texttt{Conv2D} com 32 filtros e mesmas configurações da primeira camada convolucional.
-    
-    \item \textbf{Max Pooling 2:} Segunda operação de \texttt{MaxPooling2D}.
-    
-    \item \textbf{Camada Convolucional 3:} \texttt{Conv2D} com 64 filtros.
-    
-    \item \textbf{Max Pooling 3:} Redução final da dimensionalidade espacial.
-    
-    \item \textbf{Camada de Achplanamento:} \texttt{Flatten}, transforma a saída tridimensional em um vetor unidimensional.
-    
-    \item \textbf{Camada Densa Oculta:} \texttt{Dense} com 128 unidades e ativação \texttt{ReLU}.
-    
-    \item \textbf{Camada de Saída:} \texttt{Dense(1)} com ativação \texttt{sigmoid}, utilizada para classificar a imagem entre duas classes.
+\item Uma camada de reescalonamento (Rescaling) que normaliza os valores dos pixels das imagens de entrada para o intervalo
+[0,1], dividindo por 255. Essa etapa é essencial para acelerar a convergência durante o treinamento.
+\item Três blocos compostos por:
+    \begin{itemize}
+        \item Uma camada Conv2D com filtros 3x3, ativação \textbf{ReLU} e preenchimento 'same', com 16, 32 e 64 filtros, respectivamente; 
+        \item Uma camada \textit{MaxPooling2D} após cada convolução, reduzindo as dimensões espaciais e promovendo generalização.
+    \end{itemize}
+\item Uma camada de \textit{Flatten}, que transforma o mapa de características extraído em um vetor unidimensional.
+\item Uma camada densa \texttt{Dense}  com 128 neurônios e ativação \textbf{ReLU}, responsável por combinar as características extraídas.
+\item Uma camada de saída \textit{Dense} com 8 neurônios e ativação \textbf{softmax}, adequada para classificação multiclasse com rótulos 
+inteiros de 0 a 7 (associados às classes 1 a 8).
 \end{itemize}
 
-A rede foi compilada com os seguintes parâmetros:
-
-\begin{itemize}
-    \item \textbf{Otimizador:} Adam, com taxa de aprendizado de 0{,}001.
-    \item \textbf{Função de perda:} \texttt{binary\_crossentropy}.
-    \item \textbf{Métrica:} Acurácia.
-\end{itemize}
+O modelo foi compilado com otimizador Adam e função de perda \textit{Sparse Categorical Crossentropy}, uma vez que os rótulos são 
+inteiros e não codificados em one-hot, utilizando o otimizador Adam com taxa de aprendizado \textbf{0.0005}. A métrica de avaliação 
+escolhida foi a acurácia.
 
 A Figura~\ref{fig:modelo-cnn} apresenta um diagrama ilustrativo inspirado na arquitetura LeNet-5, 
 um dos modelos de redes neurais convolucionais mais clássicos, proposto por LeCun et al. (1998) para 
@@ -58,13 +92,57 @@ totalmente conectadas e uma camada final com função de ativação \textit{soft
     \label{fig:modelo-cnn}
 \end{figure}
 
+A Figura~\ref{fig:codigo-cnn} apresenta uma captura de tela do trecho de código-fonte responsável 
+pela definição da arquitetura final da rede neural convolucional utilizada neste trabalho. 
+A imagem evidencia a sequência de camadas adotadas no modelo, implementadas com a biblioteca Keras.
 
-\subsection{Planejamento da Base de Dados de RPG}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/codigo-cnn.png}
+    \caption{Trecho de código-fonte com a definição da arquitetura da CNN.}
+    \label{fig:codigo-cnn}
+\end{figure}
 
-O próximo passo do projeto envolve a construção de uma base de imagens contendo fotos reais de dados de RPG, 
-priorizando faces de fácil visualização. Decidiu-se evitar o uso de dados tetraédricos (como o d4), 
-pois a face superior nem sempre é bem definida visualmente. Pretende-se focar em dados 
-como d6, d8, d10, d12 e d20, capturando múltiplas fotos de cada valor possível, em diferentes condições 
-de iluminação e ângulos. A arquitetura será ajustada para lidar com múltiplas classes conforme o dado 
-utilizado (por exemplo, 12 classes para um d12).
+\subsection{Treinamento do Modelo}
+
+O treinamento da rede neural convolucional (CNN) foi conduzido de forma iterativa, passando por 
+diversas fases de ajuste de parâmetros, avaliação de desempenho e análise qualitativa dos resultados. 
+O objetivo principal era obter um modelo capaz de classificar corretamente os valores nas faces 
+superiores de dados físicos de RPG com alta acurácia e boa generalização.
+
+Inicialmente, o modelo foi treinado por 20 épocas, com um \textit{learning rate} de $0.001$, 
+sem aplicação de técnicas de \textit{data augmentation}. Essa primeira configuração foi escolhida 
+por simplicidade e por estar alinhada com abordagens comuns na literatura introdutória de CNNs.
+Apesar da acurácia de treino apresentar crescimento constante, a acurácia de validação mostrava 
+valores baixos, sugerindo dificuldade de generalização do modelo.
+
+Tentativas subsequentes foram feitas para aumentar a robustez do treinamento por meio de técnicas 
+de aumento de dados. Utilizou-se uma camada de \textit{data augmentation} composta por rotações, 
+espelhamentos e zoom aleatórios. No entanto, todos os testes com essa abordagem resultaram em queda 
+expressiva de desempenho, com redução da acurácia de validação para menos da metade do valor 
+anteriormente obtido. Tais alterações possivelmente introduziram variações que descaracterizaram 
+os padrões dos números nas faces dos dados, prejudicando o aprendizado.
+
+Também foram avaliadas estratégias de tratamento de imagem, como conversão para escala de cinza, 
+equalização de histograma e aplicação de \textit{thresholding}. Embora visualmente eficazes em 
+destacar o contraste entre o fundo branco e o dado, esses tratamentos acabaram por remover detalhes 
+importantes dos números em certos casos. A perda de informação visual comprometeu a capacidade de 
+discriminação do modelo, levando à decisão de manter as imagens em sua versão RGB original, apenas 
+cortadas e redimensionadas para $160 \times 160$ pixels.
+
+Para melhorar a capacidade de aprendizado, o número de épocas foi aumentado para 40 e, posteriormente, 
+50. Com isso, a acurácia de treino superou os 90\%, mas a acurácia de validação permaneceu 
+significativamente inferior. Essa discrepância levantou a hipótese de um desequilíbrio na divisão dos 
+conjuntos. O conjunto de validação, com apenas 10\% das amostras (proporção 90/10), continha um número 
+muito limitado de imagens por classe, o que impactava negativamente a avaliação do modelo.
+
+A divisão foi então ajustada para 80/20 (treinamento/validação), o que resultou em melhoria 
+expressiva. Em uma das execuções com 50 épocas, observou-se que a acurácia de validação estabilizava 
+por volta da 40ª época, formando um platô. Por isso, optou-se por reduzir o número de épocas para 40.
+
+Além disso, o \textit{learning rate} foi ajustado para $0.0005$, com o intuito de proporcionar um 
+aprendizado mais estável e menos sujeito a oscilações abruptas nos pesos da rede. Essa configuração 
+final resultou em uma acurácia de treinamento de aproximadamente 84\% e acurácia de validação de 72\%, 
+com perda de validação (val\_loss) estabilizada em torno de 0.95, o que indica um bom nível de generalização 
+para a tarefa de classificação de oito classes distintas (valores de 1 a 8).
 
