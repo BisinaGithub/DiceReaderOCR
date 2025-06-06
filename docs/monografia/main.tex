@@ -4,18 +4,28 @@
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage{url}
 \geometry{a4paper, top=3cm, bottom=2cm, left=3cm, right=2cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{times} 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % limpa os cabeçalhos
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt} % remove a linha do cabeçalho
+
+
 
 \title{Reconhecimento Automático de Valores em Dados de RPG Utilizando Redes Neurais Convolucionais}
 \author{Vinícius Silveira Bisinoto}
 \date{Maio de 2025}
 
 \begin{document}
-% ----------- CAPA -------------
 \begin{titlepage}
     \centering
     {\scshape\Large INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO TRIÂNGULO MINEIRO \par}
@@ -28,7 +38,6 @@
     {\large 2025\par}
 \end{titlepage}
 
-% ----------- FOLHA DE ROSTO -------------
 \begin{titlepage}
     \centering
     {\Large Vinícius Silveira Bisinoto\par}
@@ -48,12 +57,58 @@
     {\large UBERABA - MG\par}
     {\large2025\par}
 \end{titlepage}
+\pagenumbering{gobble}
+\begin{center}
+    \Large\textbf{Agradecimentos}
+\end{center}
 
-% ----------- SUMÁRIO E RESTANTE -------------
+Agradeço, primeiramente, à minha família, pelo apoio incondicional ao longo da minha trajetória acadêmica, especialmente 
+à minha mãe Valéria, pela presença constante, e ao meu pai, que mesmo distante fisicamente, continua sendo minha 
+inspiração e exemplo de perseverança.
+Agradeço à Danielly Vitória Rodrigues, amiga de longa data e profissional talentosa, pela disponibilidade e 
+generosidade em realizar o ensaio fotográfico dos dados utilizados neste trabalho, contribuindo significativamente 
+para a qualidade visual do dataset.
+Aos professores do curso de Engenharia da Computação, especialmente ao meu orientador, pelo acompanhamento atencioso 
+e pelas valiosas sugestões ao longo da pesquisa. Por fim, agradeço aos colegas, amigos e jogadores das mesas de RPG 
+que mestrei ao longo dos últimos anos — suas experiências práticas e comentários foram fundamentais para perceber 
+a necessidade de uma solução como esta.
+\newpage
+
+\begin{center}
+    \Large\textbf{Resumo}
+\end{center}
+
+\noindent
+Este trabalho apresenta o desenvolvimento de um sistema baseado em redes neurais convolucionais (CNNs) para 
+reconhecer automaticamente valores em dados físicos de RPG a partir de imagens. Foram utilizadas técnicas 
+de visão computacional, com foco em classificação multiclasse e pré-processamento de imagens. A arquitetura 
+foi treinada com um conjunto próprio de imagens categorizadas. Os resultados obtidos demonstram a viabilidade 
+da abordagem e sugerem possíveis aplicações em sessões híbridas ou automatizadas de RPG.
+
+\vspace{0.5em}
+\noindent
+\textbf{Palavras-chave:} Visão computacional, redes neurais convolucionais, RPG, classificação de imagens.
+\newpage
+
+\begin{center}
+    \Large\textbf{Abstract}
+\end{center}
+
+\noindent
+This work presents the development of a system based on convolutional neural networks (CNNs) to automatically recognize the values on the upper faces of physical RPG dice from images. Computer vision techniques were used, focusing on multiclass classification and image preprocessing. The architecture was trained on a custom-labeled image dataset. The obtained results demonstrate the viability of the approach and suggest possible applications in hybrid or automated RPG sessions.
+
+\vspace{0.5em}
+\noindent
+\textbf{Keywords:} Computer vision, convolutional neural networks, RPG, image classification.
+\newpage
+
+\begin{center}
 \listoffigures
 \newpage
 \tableofcontents
 \newpage
+\end{center}
+
 
 \input{introducao.tex}
 \input{metodologia.tex}

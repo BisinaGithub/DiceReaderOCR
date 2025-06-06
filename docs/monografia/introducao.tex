@@ -1,3 +1,5 @@
+\pagenumbering{arabic}
+\setcounter{page}{8}   
 \section{Introdução}
 
 Os jogos de interpretação de papéis (Role-Playing Games - RPGs) têm conquistado cada vez mais espaço não só 
@@ -43,7 +45,7 @@ dificuldade computacional para quem deseja automatizar a leitura desses elemento
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figuras/rpg-dice.JPG}
-    \caption[Exemplos de dados poliédricos utilizados em jogos de RPG.]{%
+    \caption[Exemplos de dados poliédricos utilizados em jogos de RPG.]{
     \centering
     Exemplos de dados poliédricos utilizados em jogos de RPG.\par
     \textit{Foto por Danielly Vitória Rodrigues, 2025.}}
@@ -60,8 +62,8 @@ em condições práticas simuladas. Para isso, será utilizada uma arquitetura d
 composta por múltiplas camadas convolucionais e de pooling, seguidas por camadas densas e uma camada de saída 
 com função de ativação \textit{softmax}, adequada ao reconhecimento de múltiplas classes de saída — 
 correspondentes aos valores possíveis nas faces dos dados de RPG. As CNNs foram escolhidas por demonstrarem
-bastante eficiência em tarefas de reconhecimento de padrões visuais, especialmente em imagens, especialmente 
-onde existem cenários com variação de iluminação, ângulo, cor e textura. 
+bastante eficiência em tarefas de reconhecimento de padrões visuais, especialmente em imagens onde existem 
+cenários com variação de iluminação, ângulo, cor e textura. 
 \cite{lecun1998gradient, goodfellow2016deep}
 
 As Redes Neurais Convolucionais (CNNs) têm seu destaque em diversas áreas da inteligência artificial, como 
@@ -122,168 +124,250 @@ construção e validação do modelo, os resultados experimentais obtidos e, por
 sugestões para futuras melhorias.
 
 
-\vspace{1cm}
-DAQUI PRA BAIXO NÃO TEM NADA NOVO
-
-
 \section{Fundamentação Teórica}
 
-Este capítulo apresenta os principais conceitos e fundamentos
-que sustentam o desenvolvimento deste trabalho. Serão abordados
-os aspectos históricos e técnicos do RPG, os tipos de dados
-utilizados nesses jogos, os fundamentos de visão computacional,
-o reconhecimento de padrões, as redes neurais artificiais e,
-em especial, as redes neurais convolucionais (CNNs), tecnologia
-central desta pesquisa.
+Este capítulo apresenta os fundamentos teóricos que sustentam o desenvolvimento do projeto, abrangendo os temas 
+de jogos de RPG, visão computacional, aprendizado profundo, redes neurais convolucionais e reconhecimento de 
+padrões visuais. O objetivo é fornecer ao leitor o embasamento necessário para compreender a relevância, os 
+desafios e as soluções técnicas envolvidas no reconhecimento automático de valores em dados físicos de RPG.
 
-\subsection{Role-Playing Games (RPGs)}
+\subsection{Jogos de Interpretação de Papéis (RPG)}
 
-Os jogos de interpretação de papéis, conhecidos como Role-Playing
-Games (RPGs), são uma forma de jogo narrativo em que os
-participantes assumem papéis fictícios e interagem em um mundo
-imaginário, muitas vezes guiados por um narrador ou mestre
-\cite{hitchens2007roleplaying}. Esses jogos ganharam notoriedade
-não apenas como forma de lazer, mas também como ferramentas de
-ensino, inclusão social e desenvolvimento emocional, ao promoverem
-criatividade, resolução de problemas, empatia e trabalho em equipe.
+\subsubsection{História e Evolução dos RPGs}
+Os jogos de interpretação de papéis, popularmente conhecidos como RPGs (do inglês, Role-Playing Games), constituem 
+um dos gêneros lúdicos mais complexos e influentes da cultura popular contemporânea. Sua origem remonta a uma 
+série de influências históricas, culturais e mecânicas que se entrelaçaram ao longo do século XX, até culminar
+ na criação do primeiro sistema formal de RPG: Dungeons \& Dragons (D\&D), publicado em 1974 por Gary Gygax e 
+ Dave Arneson.
 
-Além disso, os RPGs físicos — aqueles que envolvem livros, fichas
-e dados — permanecem como uma das formas mais tradicionais e
-culturalmente ricas de interação nesse gênero, mesmo em um cenário
-atual fortemente digitalizado. A experiência tátil, a interpretação
-ao vivo e a imprevisibilidade dos dados físicos contribuem para
-uma experiência singular e imersiva, valorizada por seus praticantes.
+Segundo Peterson (2012), os RPGs não surgiram isoladamente, mas como consequência direta da evolução dos jogos 
+de guerra (wargames), que eram amplamente praticados por entusiastas militares e civis ao longo dos séculos 
+XIX e XX. Esses jogos utilizavam miniaturas, mapas e regras complexas para simular combates históricos, sendo 
+voltados principalmente para recreações táticas. A grande inovação de Arneson, e posteriormente de Gygax, foi 
+substituir o controle de exércitos pelo controle de personagens individuais com papéis específicos e atributos 
+únicos — introduzindo, assim, o elemento narrativo e subjetivo que diferencia os RPGs dos jogos de tabuleiro e 
+estratégia.
 
-\subsection{Dados em Jogos de RPG}
+Peterson também enfatiza o papel dos clubes de wargames norte-americanos no desenvolvimento das primeiras 
+versões do que viria a se tornar o RPG moderno. Em particular, o cenário fictício de Blackmoor, criado por 
+Dave Arneson, foi um dos primeiros mundos de campanha onde os jogadores podiam assumir papéis de personagens 
+fixos e participar de aventuras continuadas.
 
-Diferentemente dos jogos de tabuleiro convencionais, os RPGs
-utilizam uma variedade de dados poliédricos para simular testes
-de atributos e ações. Entre os tipos mais comuns estão o d4
-(tetraedro), d6 (cubo), d8 (octaedro), d10 (decágono), d12
-(dodecágono) e d20 (icosaedro), sendo cada um empregado conforme
-a mecânica do sistema de jogo.
+A formalização dos RPGs como gênero distinto se deu com a publicação da primeira edição de Dungeons \& Dragons, 
+que introduziu conceitos centrais como atributos numéricos (Força, Destreza, Inteligência, etc.), rolagem de 
+dados poliédricos, níveis de experiência (XP), classes (como guerreiro, mago, ladrão) e sistemas de combate que 
+integravam chance e estratégia. A proposta do jogo era que o Mestre (ou Dungeon Master, DM) assumisse o papel de 
+narrador e árbitro, enquanto os jogadores assumiam personagens fictícios e colaboravam na construção de uma 
+história interativa.
 
-A leitura dos valores apresentados nas faces superiores desses
-dados é fundamental para o progresso da narrativa. No entanto,
-essa tarefa torna-se complexa em sessões com múltiplas rolagens
-simultâneas. Em especial, sistemas que utilizam muitos dados para
-calcular danos, acertos ou testes em grupo enfrentam perda de tempo
-significativa, além de suscetibilidade a erros na leitura manual.
+Hitchens e Drachen (2007) classificam os RPGs em quatro categorias principais: RPGs de mesa (como D\&D), RPGs ao 
+vivo (Live Action Role-Playing Games, LARP), RPGs eletrônicos (Computer RPGs) e MUDs (Multi-User Dungeons). Essa 
+taxonomia revela como o conceito de RPG se expandiu para diferentes mídias e contextos, mantendo como elemento 
+unificador a ideia de interpretar um papel em um mundo imaginário sob certas regras.
 
-Essa dificuldade cresce conforme a diversidade de dados utilizados.
-Dados com faces pequenas ou com símbolos estilizados, como os d4
-e alguns d10, tornam a interpretação visual ainda mais desafiadora,
-o que reforça a necessidade de soluções que automatizem essa
-leitura sem comprometer a fidelidade da experiência física.
+A evolução dos RPGs também passou por uma transformação estética e temática significativa. Durante os anos 1980 e 
+1990, sistemas alternativos ao D\&D surgiram, como GURPS (Generic Universal RolePlaying System), Vampire: The 
+Masquerade (que inaugurou o gênero Storyteller), e Call of Cthulhu, baseado na obra de H. P. Lovecraft. Esses 
+sistemas enfatizavam aspectos como interpretação dramática, dilemas morais e ambientações sombrias, ampliando o 
+alcance narrativo dos jogos.
+
+Nos anos 2000, os RPGs testemunharam uma popularização global com o advento de plataformas digitais, fóruns de 
+discussão e, mais recentemente, com a ascensão de actual plays (sessões transmitidas ao vivo por streamers e 
+criadores de conteúdo) e podcasts especializados. Títulos como Critical Role e canais como o Ordem Paranormal 
+ajudaram a impulsionar uma nova geração de jogadores e expandiram o apelo do RPG como forma de entretenimento 
+participativo.
+
+A Figura~\ref{fig:rpg-evolucao} ilustra uma linha do tempo simplificada da evolução dos RPGs, desde suas origens 
+nos wargames até sua presença contemporânea em plataformas digitais.
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.75\textheight, keepaspectratio]{figuras/Linha_do_Tempo_RPG_Mundo.png}
+\caption[Linha do tempo simplificada e ilustrada da evolução dos RPGs]{
+\centering
+Linha do tempo simplificada e ilustrada da evolução dos RPGs, desde os wargames até os RPGs modernos.\par
+\textit{Fonte: Silva, Gabriela Prates da; Prates da Silva, Eduardo (2020). História do RPG: linha do tempo. 
+figshare. Figure. \url{https://doi.org/10.6084/m9.figshare.12493895.v5}.}}
+\label{fig:rpg-evolucao}
+\end{figure}
+
+Em síntese, os RPGs representam uma forma única de jogo baseada na colaboração narrativa, na improvisação 
+criativa e na imersão ficcional. Sua evolução demonstra não apenas uma transformação nas mecânicas de jogo, 
+mas também um reflexo de mudanças culturais, sociais e tecnológicas. Ao longo das décadas, o RPG consolidou-se 
+como ferramenta educacional, artística e terapêutica, além de manter seu lugar como um dos pilares do 
+entretenimento alternativo.
+
+\subsubsection{A Importância dos Dados Físicos no RPG}
+Discussão sobre a função simbólica e prática dos dados físicos, incluindo o impacto da rolagem real na 
+imersão e dinâmica do jogo.
+\begin{itemize}
+    \item Referência: \cite{hitchens2007roleplaying}
+\end{itemize}
 
 \subsection{Visão Computacional}
 
-A visão computacional é uma área da inteligência artificial que
-busca desenvolver métodos para que sistemas computacionais possam
-interpretar e compreender informações visuais do mundo real
-\cite{szeliski2010computer}. Isso envolve desde a captação de imagens,
-passando por seu processamento e análise, até a extração de dados
-relevantes para tomada de decisão automatizada.
+\subsubsection{Definição e Objetivos}
 
-No presente trabalho, a visão computacional é empregada com o
-intuito de detectar, identificar e interpretar os valores apresentados
-na face superior dos dados físicos de RPG. Isso requer o domínio
-de técnicas como pré-processamento de imagens, filtragem de ruído,
-segmentação, detecção de contornos e extração de características
-visuais que serão posteriormente classificadas por modelos baseados
-em aprendizado profundo.
+A Visão Computacional é um campo interdisciplinar da ciência e engenharia que busca desenvolver sistemas
+capazes de extrair, interpretar e compreender informações a partir de imagens ou vídeos do mundo real. 
+Inspirada nos mecanismos da visão humana, essa área utiliza algoritmos e técnicas matemáticas para permitir 
+que computadores reconheçam padrões, identifiquem objetos e tomem decisões com base em dados visuais 
+\cite{szeliski2010computer}.
 
-\subsection{Reconhecimento de Padrões}
+Dentro do contexto da Engenharia da Computação, a Visão Computacional representa um elo entre o hardware e 
+o software, exigindo conhecimento sólido em áreas como álgebra linear, processamento de sinais, inteligência 
+artificial e arquitetura de computadores. A integração de câmeras com sistemas embarcados, o uso de GPUs 
+para paralelismo em algoritmos de processamento de imagem e a aplicação de redes neurais profundas são 
+exemplos de como esse campo dialoga com os fundamentos da engenharia \cite{bishop2006pattern}.
 
-O reconhecimento de padrões é o campo responsável por identificar
-regularidades e estruturas em dados brutos, com o objetivo de
-classificá-los ou agrupá-los de forma significativa
-\cite{bishop2006pattern}. Ele é amplamente aplicado em tarefas como
-reconhecimento facial, leitura de textos (OCR), análise de expressões
-faciais e identificação de objetos em imagens.
+Os objetivos da Visão Computacional variam conforme o domínio de aplicação, mas incluem tarefas como:
 
-No contexto deste trabalho, o reconhecimento de padrões é a base
-para que se possa distinguir, de forma automática, os valores
-apresentados nas faces dos dados físicos. Essa tarefa exige que
-o sistema seja capaz de lidar com variações de iluminação, ângulo,
-foco e tipo de fonte ou símbolo presente nos dados, o que torna
-indispensável o uso de modelos robustos e adaptáveis, como as
-redes neurais convolucionais.
+\begin{itemize}
+\item \textbf{Reconhecimento de padrões}: identificar rostos, placas de veículos, objetos ou caracteres;
+\item \textbf{Segmentação de imagem}: separar regiões de interesse com base em características como cor, 
+textura ou bordas;
+\item \textbf{Rastreamento}: acompanhar o movimento de objetos ao longo do tempo em sequências de vídeo;
+\item \textbf{Reconstrução tridimensional}: obter modelos 3D a partir de múltiplas imagens 2D;
+\item \textbf{Análise de cenas}: compreender o contexto global de uma imagem, como a contagem de 
+pessoas ou a detecção de anomalias.
+\end{itemize}
 
-\subsection{Aprendizado de Máquina e Redes Neurais Artificiais}
+O avanço das redes neurais convolucionais (CNNs), a disponibilidade de grandes conjuntos de dados rotulados 
+e o aumento no poder computacional possibilitaram resultados significativos nos últimos anos, com aplicações 
+em áreas como saúde (diagnóstico por imagem), indústria (inspeção automatizada), segurança (monitoramento 
+por câmeras) e entretenimento (realidade aumentada).
 
-O aprendizado de máquina (machine learning) é uma subárea da
-inteligência artificial focada no desenvolvimento de algoritmos
-capazes de aprender padrões e realizar previsões ou classificações
-com base em dados. Entre os modelos mais poderosos e amplamente
-utilizados nessa área estão as redes neurais artificiais
-\cite{goodfellow2016deep}.
+Em projetos como este TCC, a Visão Computacional assume papel central, possibilitando a interface entre os 
+dados físicos do mundo real (os dados de RPG) e o sistema computacional responsável por interpretá-los automaticamente.
 
-Essas redes são compostas por camadas de unidades chamadas neurônios
-artificiais, que processam informações em conjunto. Por meio do
-treinamento supervisionado, elas ajustam seus parâmetros internos
-com base em conjuntos de dados rotulados, adquirindo a capacidade
-de realizar inferências em dados novos e não vistos.
 
-Tais características fazem das redes neurais ferramentas valiosas
-em aplicações complexas, como reconhecimento de fala, tradução
-automática, diagnósticos médicos e, principalmente, análise de imagens.
+
+\subsubsection{Etapas do Processamento de Imagens}
+
+O processo de construção de um sistema de visão computacional envolve diversas etapas encadeadas, que vão desde 
+a aquisição dos dados até a inferência dos resultados. Cada uma dessas etapas tem o seu papel no desempenho do modelo, 
+exigindo que sejam feitas decisões técnicas pensadas com base nos objetivos do problema em questão.
+
+A Figura~\ref{fig:cv-pipeline} ilustra o fluxo completo do trabalho em um sistema de visão computacional, trazendo 
+destaque para os pontos de decisão e os vieses que podem influenciar negativamente o resultado final.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth, height=0.35\textheight, keepaspectratio]{figuras/Computer-vision-pipeline.png}
+\caption[Fluxo de um sistema de visão computacional]{
+\centering
+Fluxo de um sistema de visão computacional.\par
+\textit{Fonte: Physics-Informed Computer Vision: A Review and Perspectives - Scientific Figure on ResearchGate.} \par
+\raggedright
+\textit{Available from: \href{https://www.researchgate.net/figure/Computer-vision-pipeline-showing-different-biases-and-different-points-of-physics_fig3_371136308}{https://www.researchgate.net/figure/Computer-vision-pipeline-showing-different-biases-and-different-points-of-physics\_fig3\_371136308} [accessed 5 Jun 2025]}
+}
+\label{fig:cv-pipeline}
+\end{figure}
+
+Esse fluxo é composto por cinco etapas, sendo elas:
+
+\begin{itemize}
+    \item \textbf{Aquisição de dados}: A etapa onde ocorre a coleta das imagens ou vídeos que serão utilizados no 
+    treinamento do modelo. Os dados podem vir de fotos (2 dimensões), sensores com profundidade (3 dimensões) ou 
+    streamings em tempo real. A qualidade e a diversidade dos dados capturados influenciam diretamente a capacidade 
+    do modelo de fazer generalização.
+
+    \item \textbf{Pré-processamento}: A etapa na qual são aplicadas transformações que preparam os dados para serem 
+    utilizados pela rede neural. Dentre as operações mais comuns estão conversão para tons de cinza, normalização 
+    dos valores do pixels, e técnicas de aumento de dados (\textit{data augmentation}). No contexto deste trabalho, 
+    essa etapa incluiu o corte das bordas, redimensionamento padronizado das imagens e conversão de canais de cor RGB.
+
+    \item \textbf{Projeto do modelo}: A etapa responsável pela arquitetura da rede convolucional que será utilizada, 
+    como o número de camadas, quais filtros, suas funções de ativação e dimensões de entrada/saída. Modelos populares, 
+    como GoogLeNet, ResNet e Mask-RCNN, oferecem diferentes estratégias para resolver tarefas como classificação, 
+    detecção ou segmentação.
+
+    \item \textbf{Treinamento do modelo}: A etapa que o modelo é exposto às imagens rotuladas e ajusta seus pesos 
+    internos utilizando funções de perda como a entropia cruzada (\textit{cross-entropy}) ou erro quadrático médio. 
+    O desempenho do modelo é medido com base em sua acurácia e na capacidade de generalizar para dados não vistos.
+
+    \item \textbf{Inferência}: A etapa após o treinamento. Aqui o modelo é utilizado para fazer previsões sobre novos dados. 
+    O tipo de inferência pode variar entre classificação, segmentação, detecção de objetos ou regressão, dependendo 
+    do objetivo do projeto.
+
+\end{itemize}
+
+Além das etapas técnicas, a imagem também destaca três tipos de vieses que podem afetar os resultados:
+\textbf{viés de observação} (dados enviesados), \textbf{viés de aprendizado} (modelo limitado em sua capacidade de 
+generalização) e \textbf{viés indutivo} (pressupostos errados no design do modelo).
+
+O entendimento de todas essas etapas é essencial para engenheiros da computação que desejam aplicar visão computacional 
+a problemas do mundo real, como o reconhecimento automático de valores em dados físicos de RPG proposto neste trabalho.
+
+
+
+\subsubsection{Reconhecimento Óptico de Caracteres (OCR)}
+Breve explicação do OCR tradicional e comparação com abordagens baseadas em aprendizado profundo.
+\begin{itemize}
+    \item Referência: \cite{szeliski2010computer, bishop2006pattern}
+\end{itemize}
+
+\subsection{Aprendizado de Máquina e Aprendizado Profundo}
+
+\subsubsection{Conceitos Básicos de Aprendizado de Máquina}
+Aprendizado supervisionado, não supervisionado e por reforço; problemas de classificação.
+\begin{itemize}
+    \item Referência: \cite{bishop2006pattern}
+\end{itemize}
+
+\subsubsection{Avanços com Aprendizado Profundo (Deep Learning)}
+O surgimento das redes neurais profundas e suas vantagens em problemas com grande volume de dados e 
+complexidade visual.
+\begin{itemize}
+    \item Referência: \cite{goodfellow2016deep}
+\end{itemize}
 
 \subsection{Redes Neurais Convolucionais (CNNs)}
 
-As Redes Neurais Convolucionais (Convolutional Neural Networks —
-CNNs) são uma arquitetura especializada de redes neurais artificiais,
-voltada especificamente ao processamento de imagens e dados com
-estrutura espacial \cite{lecun1998gradient}. Sua principal
-característica é a capacidade de extrair automaticamente padrões
-relevantes em imagens, sem necessidade de pré-processamento manual.
-
-As CNNs operam por meio de camadas convolucionais que aplicam
-filtros (ou kernels) sobre a imagem de entrada, capturando
-características locais como bordas, formas e texturas. Essas
-informações são progressivamente refinadas ao longo das camadas,
-permitindo que o modelo aprenda representações hierárquicas de
-alta complexidade.
-
-Além das camadas convolucionais, as CNNs costumam incluir:
+\subsubsection{Estrutura Geral de uma CNN}
+Apresentação da arquitetura típica: camadas convolucionais, pooling, flatten e densas.
 \begin{itemize}
-\item \textbf{Camadas de Pooling}: responsáveis por reduzir a
-dimensionalidade das representações intermediárias,
-agregando informações locais e promovendo invariância a
-pequenas mudanças na entrada;
-\item \textbf{Camadas Densas}: totalmente conectadas, utilizadas
-para combinar as características extraídas e realizar a
-classificação final;
-\item \textbf{Camada de Saída}: fornece a predição do modelo, que
-pode assumir diferentes formatos conforme a tarefa
-(classificação binária, multiclasse, etc.).
+    \item Referência: \cite{lecun1998gradient, goodfellow2016deep}
 \end{itemize}
 
-O uso de CNNs neste trabalho permite que o sistema reconheça os
-dígitos nas faces superiores dos dados de RPG com alto grau de
-robustez, mesmo em condições adversas, como iluminação irregular,
-oclusão parcial ou variações na distância da câmera.
-
-\subsection{Aplicações Relevantes de CNNs}
-
-As redes neurais convolucionais têm sido empregadas com sucesso
-em uma ampla gama de aplicações modernas. Dentre as mais relevantes,
-destacam-se:
+\subsubsection{Funcionamento das Camadas Convolucionais}
+Filtro, stride, padding e extração de características espaciais.
 \begin{itemize}
-\item \textbf{Reconhecimento Facial}: utilizado em autenticação
-biométrica e sistemas de vigilância;
-\item \textbf{Diagnóstico Médico por Imagem}: como na detecção de
-tumores em exames de imagem, por exemplo, em mamografias
-ou tomografias;
-\item \textbf{OCR (Reconhecimento Óptico de Caracteres)}:
-leitura automática de documentos e placas de veículos;
-\item \textbf{Sistemas de Navegação e Robótica}:
-reconhecimento de sinais visuais em ambientes dinâmicos;
-\item \textbf{Indústria e Logística}: inspeção automatizada de
-produtos e leitura de códigos visuais.
+    \item Referência: \cite{lecun1998gradient, datacamp_cnn}
 \end{itemize}
 
-Tais aplicações comprovam a versatilidade e eficácia das CNNs,
-e embasam sua escolha como tecnologia central para a proposta deste
-TCC, que busca integrar o potencial do aprendizado profundo ao
-contexto lúdico dos jogos de RPG.
+\subsubsection{Pooling e Redução Dimensional}
+Funções de pooling (max, average) e sua função na redução de sobreajuste.
+\begin{itemize}
+    \item Referência: \cite{datacamp_cnn}
+\end{itemize}
+
+\subsubsection{Funções de Ativação e Camadas Densas}
+Comparação entre ReLU, Sigmoid e Softmax. Papel das camadas densas e da saída.
+\begin{itemize}
+    \item Referência: \cite{goodfellow2016deep}
+\end{itemize}
+
+\subsubsection{Aplicações Práticas das CNNs}
+Aplicações em reconhecimento facial, OCR, leitura de placas, diagnóstico por imagem.
+\begin{itemize}
+    \item Referência: \cite{goodfellow2016deep, lecun1998gradient}
+\end{itemize}
+
+\subsection{Aplicações Relacionadas: Reconhecimento de Dígitos e Objetos}
+
+\subsubsection{Caso Clássico: LeNet-5 e MNIST}
+Modelo LeNet-5 de LeCun e sua aplicação no MNIST para reconhecimento de dígitos manuscritos.
+\begin{itemize}
+    \item Referência: \cite{lecun1998gradient}
+\end{itemize}
+
+\subsubsection{Projetos Semelhantes}
+Análise de projetos com reconhecimento de dados, OCR em contextos semelhantes, projetos com CNNs aplicadas 
+a objetos tridimensionais e datasets customizados.
+(Adaptar conforme trabalhos encontrados na revisão de literatura.)
+
+\subsection{Considerações Finais}
+
+Síntese dos principais conceitos abordados, reforçando o embasamento teórico que sustenta a metodologia 
+aplicada no presente trabalho.

@@ -88,7 +88,7 @@ totalmente conectadas e uma camada final com função de ativação \textit{soft
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figuras/CNN-architecture.png}
-    \caption{Esquema conceitual da arquitetura de uma CNN, inspirado na LeNet-5 \cite{lecun1998gradient}.}
+    \caption{Esquema conceitual da arquitetura de uma CNN, inspirado na LeNet-5.}
     \label{fig:modelo-cnn}
 \end{figure}
 
@@ -140,7 +140,7 @@ A divisão foi então ajustada para 80/20 (treinamento/validação), o que resul
 expressiva. Em uma das execuções com 50 épocas, observou-se que a acurácia de validação estabilizava 
 por volta da 40ª época, formando um platô. Por isso, optou-se por reduzir o número de épocas para 40.
 
-Além disso, o \textit{learning rate} foi ajustado para $0.0005$, com o intuito de proporcionar um 
+Além disso, o \textit{learning rate} foi ajustado para $0.0006$, com o intuito de proporcionar um 
 aprendizado mais estável e menos sujeito a oscilações abruptas nos pesos da rede. Essa configuração 
 final resultou em uma acurácia de treinamento de aproximadamente 84\% e acurácia de validação de 72\%, 
 com perda de validação (val\_loss) estabilizada em torno de 0.95, o que indica um bom nível de generalização 
