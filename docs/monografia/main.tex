@@ -62,16 +62,24 @@
     \Large\textbf{Agradecimentos}
 \end{center}
 
-Agradeço, primeiramente, à minha família, pelo apoio incondicional ao longo da minha trajetória acadêmica, especialmente 
-à minha mãe Valéria, pela presença constante, e ao meu pai, que mesmo distante fisicamente, continua sendo minha 
-inspiração e exemplo de perseverança.
-Agradeço à Danielly Vitória Rodrigues, amiga de longa data e profissional talentosa, pela disponibilidade e 
-generosidade em realizar o ensaio fotográfico dos dados utilizados neste trabalho, contribuindo significativamente 
-para a qualidade visual do dataset.
-Aos professores do curso de Engenharia da Computação, especialmente ao meu orientador, pelo acompanhamento atencioso 
-e pelas valiosas sugestões ao longo da pesquisa. Por fim, agradeço aos colegas, amigos e jogadores das mesas de RPG 
-que mestrei ao longo dos últimos anos — suas experiências práticas e comentários foram fundamentais para perceber 
-a necessidade de uma solução como esta.
+A conclusão deste trabalho não seria possível sem o apoio, a presença e a força de diversas pessoas que estiveram ao meu lado ao longo de toda 
+a jornada. Agradeço, antes de tudo, aos meus pais, \textbf{Germano} e \textbf{Valéria}, por todo o suporte incondicional oferecido ao 
+longo deste processo. Em um período especialmente difícil da minha vida, vocês foram o alicerce que me sustentou. Sou profundamente 
+grato pelo carinho, pela paciência e pela confiança que sempre depositaram em mim. Minha gratidão também à minha psicóloga, \textbf{Maíla}, 
+por me ajudar a reencontrar equilíbrio e clareza em momentos em que a mente parecia um campo nebuloso. Sua escuta, sua orientação e seu 
+trabalho foram essenciais para que eu conseguisse avançar e concluir este projeto. Agradeço à fotógrafa \textbf{Danielly},
+ pela colaboração fundamental na produção das imagens utilizadas neste trabalho. Seu cuidado e profissionalismo deram vida à base visual 
+ sobre a qual tudo foi construído. Expresso ainda meu carinho e gratidão a todos os meus amigos e companheiros de \textit{RPG}, 
+ que fizeram — e continuam fazendo — parte da minha trajetória como mestre. Foram incontáveis histórias, mesas, risos e aventuras 
+ compartilhadas que não só inspiraram este trabalho, mas também tornaram meus finais de semana mais vivos e felizes. Por fim, agradeço com 
+ todo meu coração à \textbf{Louise Machado}, por estar ao meu lado em cada passo desta caminhada. Seu apoio foi tanto acadêmico quanto
+ emocional, e foi justamente essa presença constante, em momentos de glória e de sofrimento, que me deu forças para continuar. Este 
+ trabalho também é seu.
+
+A todos vocês, meu mais sincero obrigado.
+
+
+
 \newpage
 
 \begin{center}
@@ -88,7 +96,6 @@ da abordagem e sugerem possíveis aplicações em sessões híbridas ou automati
 \vspace{0.5em}
 \noindent
 \textbf{Palavras-chave:} Visão computacional, redes neurais convolucionais, RPG, classificação de imagens.
-\newpage
 
 \begin{center}
     \Large\textbf{Abstract}
@@ -105,6 +112,30 @@ This work presents the development of a system based on convolutional neural net
 \begin{center}
 \listoffigures
 \newpage
+\section*{Lista de Siglas}
+\begin{itemize}
+    \item \textbf{RPG}: Role-Playing Game (Jogo de Interpretação de Papéis)
+    \item \textbf{D\&D}: Dungeons and Dragons (Masmorras e Dragões)
+    \item \textbf{d2, d4, d6, d8, d10, d12, d20}: Dados de RPG com 2, 4, 6, 8, 10, 12 e 20 lados
+    \item \textbf{CNN}: Convolutional Neural Network (Rede Neural Convolucional)
+    \item \textbf{OCR}: Optical Character Recognition (Reconhecimento Óptico de Caracteres)
+    \item \textbf{XP}: Experience Points (Pontos de Experiência)
+    \item \textbf{DM}: Dungeon Master (Mestre de Masmorra)
+    \item \textbf{LARP}: Live Action Role-Playing (Jogo de Interpretação de Papéis ao Vivo)
+    \item \textbf{MUDs}: Multi-User Dungeons (Masmorras Multijogador)
+    \item \textbf{GURPS}: Generic Universal RolePlaying System (Sistema Genérico Universal de Interpretação de Papéis)
+    \item \textbf{RNGs}: Random Number Generators (Geradores de Números Aleatórios)
+    \item \textbf{PRNGs}: Pseudo-Random Number Generators (Geradores de Números Aleatórios Pseudo-Aleatórios)
+    \item \textbf{GPUs}: Graphics Processing Units (Unidades de Processamento Gráfico)
+    \item \textbf{3D, 2D}: Três Dimensões, Duas Dimensões
+    \item \textbf{TCC}: Trabalho de Conclusão de Curso
+    \item \textbf{RGB}: Red, Green, Blue (Vermelho, Verde, Azul)
+
+    \item \textbf{ReLU}: Rectified Linear Unit (Unidade Linear Retificada)
+    \item \textbf{OpenCV}: Open Source Computer Vision Library (Biblioteca de Visão Computacional de Código Aberto)
+\end{itemize}
+
+\newpage
 \tableofcontents
 \newpage
 \end{center}
@@ -114,6 +145,7 @@ This work presents the development of a system based on convolutional neural net
 \input{metodologia.tex}
 \input{resultados.tex}
 \input{conclusao.tex}
+\newpage
 
 \bibliographystyle{abnt}
 \bibliography{referencias}

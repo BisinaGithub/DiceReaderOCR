@@ -1,0 +1,64 @@
+\section{Conclusão}
+
+O presente trabalho teve como objetivo principal investigar e implementar uma solução baseada em \textit{visão computacional} e 
+\textit{redes neurais convolucionais} (CNNs) para o reconhecimento automático de valores em dados físicos utilizados em jogos de RPG. 
+A proposta surgiu da observação de um problema recorrente nas sessões de jogo presenciais: o tempo e a atenção exigidos para interpretar 
+e somar manualmente os resultados de múltiplas rolagens de dados, especialmente em momentos de ação intensa ou resolução de combate. 
+Ao buscar uma alternativa tecnológica que respeitasse a experiência tátil e emocional associada ao uso dos dados físicos — em contraste 
+com simuladores digitais —, o projeto propôs um meio-termo entre a tradição e a automação.
+
+Para alcançar esse objetivo, foi construída uma base de imagens real, capturada em estúdio fotográfico, com dados reais e sob 
+condições controladas de iluminação, foco e posicionamento. Esse cuidado na coleta garantiu imagens com boa qualidade visual, 
+adequadas ao treinamento de um classificador baseado em CNN. Após análise da distribuição dos dados, foi decidido limitar o escopo 
+inicial às classes de valores de 1 a 8, devido à baixa representatividade de imagens para os valores 0 e 9, assegurando um treinamento 
+mais equilibrado e confiável.
+
+Durante o desenvolvimento, foram adotadas práticas fundamentais da engenharia de software e da engenharia da computação: desde o 
+uso de bibliotecas especializadas em processamento de imagem (OpenCV) até a modelagem e treinamento da rede convolucional com o 
+framework TensorFlow/Keras. O pipeline de pré-processamento incluiu corte, redimensionamento e padronização das cores em RGB, buscando 
+preservar ao máximo os elementos visuais relevantes ao reconhecimento dos dígitos nas faces dos dados.
+
+O processo de treinamento passou por diferentes experimentações: inicialmente com 20 épocas, sem técnicas de aumento de dados, e 
+posteriormente com ajustes progressivos — como aumento para 40 épocas, ajuste do \textit{learning rate} e reformulação da proporção 
+entre os conjuntos de treino e validação. Testes com \textit{data augmentation} e filtros de tratamento como conversão para escala de 
+cinza e equalização de histograma foram avaliados, mas não resultaram em melhorias. Ao contrário, tais técnicas acabaram degradando o 
+desempenho do modelo, demonstrando que, neste contexto específico, a preservação da fidelidade visual das imagens originais foi essencial.
+
+O modelo final alcançou uma acurácia de validação de aproximadamente 72\%, com uma taxa de acerto de 84\% no conjunto de treinamento, 
+e uma curva de aprendizado estável, sem indícios fortes de sobreajuste. A análise por matriz de confusão revelou que o modelo soube 
+generalizar bem os padrões dos dados, embora ainda apresente dificuldades pontuais em classes visualmente semelhantes.
+
+Do ponto de vista acadêmico, o trabalho dialoga com projetos anteriores da literatura que utilizaram CNNs para reconhecimento de dígitos 
+(como o clássico LeNet-5) e com aplicações específicas voltadas ao reconhecimento de dados de RPG. Diferencia-se, no entanto, por propor 
+uma base real e própria, com foco explícito na aplicação prática durante sessões de jogo físicas, e não apenas na análise estatística de 
+equilíbrio dos dados. Além disso, propõe um modelo leve, adaptável, sem dependência de datasets externos prontos como os encontrados no 
+Kaggle, reforçando sua originalidade e aplicabilidade.
+
+\subsection*{Perspectivas Futuras}
+
+Embora os resultados obtidos sejam promissores, este trabalho representa uma etapa inicial. Diversas frentes de aprimoramento podem ser 
+exploradas em trabalhos futuros:
+
+\begin{itemize}
+    \item \textbf{Ampliação do conjunto de dados}: Incluir os valores 0 e 9, bem como múltiplos modelos e cores de dados, para aumentar a 
+    robustez e generalização do modelo. Também incluir dados de 12 e 20 lados, que são comuns em jogos de RPG.
+    \item \textbf{Segmentação automática de múltiplos dados}: Evoluir de uma abordagem baseada em imagens isoladas para o reconhecimento 
+    simultâneo de múltiplos dados em uma única imagem. Alcançando com isso a capacidade de calcular somas de rolagens de dados
+    complexas, como as comuns em sistemas de combate de RPG.
+    \item \textbf{Uso de modelos pré-treinados}: Explorar técnicas de \textit{transfer learning} com arquiteturas mais profundas, 
+    como MobileNet ou ResNet, para melhorar ainda mais a acurácia em bases pequenas.
+    \item \textbf{Integração com aplicação mobile}: Desenvolver um aplicativo móvel que utilize a câmera do dispositivo para capturar
+    imagens dos dados em tempo real, processando-as e retornando os valores reconhecidos instantaneamente. Isso poderia ser feito com
+    uma interface amigável, onde o usuário poderia apontar a câmera para os dados e receber os resultados de forma rápida e precisa.
+\end{itemize}
+
+\subsection*{Considerações Finais}
+
+A execução deste projeto evidenciou como os conhecimentos teóricos de disciplinas fundamentais da engenharia da computação — como 
+processamento de imagens, Inteligência artificial, estrutura de dados e programação orientada a objetos — podem se transformar em soluções 
+aplicáveis a cenários reais, até mesmo em contextos lúdicos e culturais como os jogos de RPG.
+
+Ao unir rigor técnico com criatividade, este trabalho se insere na fronteira entre o entretenimento e a ciência, propondo um caminho 
+viável para aproximar a inteligência artificial da mesa de jogo, sem abrir mão da essência que torna os dados físicos tão marcantes para 
+jogadores em todo o mundo.
+

@@ -1,6 +1,6 @@
 \section{Metodologia }
 
-Este capítulo descreve os materiais e os métodos empregados no desenvolvimento do presente trabalho, 
+Este capítulo descreve os métodos empregados no desenvolvimento do presente trabalho, 
 com foco na estruturação do conjunto de dados, no processamento das imagens, no modelo de rede neural 
 convolucional utilizado e nas estratégias de treinamento e validação do classificador. As decisões 
 adotadas ao longo do processo são justificadas com base na realidade do projeto e nas limitaçães 
@@ -10,6 +10,18 @@ observadas durante a execução experimental.
 Para a realização dos testes, foi construído um conjunto de imagens próprio contendo fotografias de dados 
 físicos utilizados em jogos de RPG. As imagens foram capturadas em estúdio fotográfico, com auxílio da
 profissional Danielly Vitória Rodrigues, garantindo qualidade adequada de resolução, iluminação e enquadramento.
+
+A figura~\ref{fig:image-counter} ilustra as quantidades de imagens coletadas para cada tipo de dado,
+com um total de 1.124 imagens, distribuídas entre dados de 4, 6, e 8 e 10 lados.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figuras/image-counter.png}
+    \caption[Distribuição do conjunto da base de imagens]{
+        \centering
+        Distribuição do conjunto de imagens coletadas, com contagem por tipo de dado. \par
+        \textit{Fonte: Autoria própria.}}
+    \label{fig:image-counter}
+\end{figure}
 
 As imagens foram organizadas em pastas segundo os valores visíveis nas faces superiores dos dados, 
 totalizando inicialmente 10 classes: \textit{0\_zero} até \textit{9\_nine}. Cada uma dessas pastas 
@@ -75,7 +87,7 @@ inteiros de 0 a 7 (associados às classes 1 a 8).
 \end{itemize}
 
 O modelo foi compilado com otimizador Adam e função de perda \textit{Sparse Categorical Crossentropy}, uma vez que os rótulos são 
-inteiros e não codificados em one-hot, utilizando o otimizador Adam com taxa de aprendizado \textbf{0.0005}. A métrica de avaliação 
+inteiros e não codificados em one-hot, utilizando o otimizador Adam com taxa de aprendizado \textbf{0.0006}. A métrica de avaliação 
 escolhida foi a acurácia.
 
 A Figura~\ref{fig:modelo-cnn} apresenta um diagrama ilustrativo inspirado na arquitetura LeNet-5, 
@@ -88,22 +100,16 @@ totalmente conectadas e uma camada final com função de ativação \textit{soft
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figuras/CNN-architecture.png}
-    \caption{Esquema conceitual da arquitetura de uma CNN, inspirado na LeNet-5.}
+    \caption[Esquema conceitual da arquitetura da Le-Net-5]{
+        \centering
+        Esquema conceitual da arquitetura de uma CNN, inspirado na LeNet-5. \par
+        \textit{Fonte: Adaptado de LeCun et al. (1998)}.
+        }
     \label{fig:modelo-cnn}
 \end{figure}
 
-A Figura~\ref{fig:codigo-cnn} apresenta uma captura de tela do trecho de código-fonte responsável 
-pela definição da arquitetura final da rede neural convolucional utilizada neste trabalho. 
-A imagem evidencia a sequência de camadas adotadas no modelo, implementadas com a biblioteca Keras.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figuras/codigo-cnn.png}
-    \caption{Trecho de código-fonte com a definição da arquitetura da CNN.}
-    \label{fig:codigo-cnn}
-\end{figure}
-
-\subsection{Treinamento do Modelo}
+\subsection{Treinamento do Modelo e Desafios Encontrados}
 
 O treinamento da rede neural convolucional (CNN) foi conduzido de forma iterativa, passando por 
 diversas fases de ajuste de parâmetros, avaliação de desempenho e análise qualitativa dos resultados. 
@@ -146,3 +152,87 @@ final resultou em uma acurácia de treinamento de aproximadamente 84\% e acurác
 com perda de validação (val\_loss) estabilizada em torno de 0.95, o que indica um bom nível de generalização 
 para a tarefa de classificação de oito classes distintas (valores de 1 a 8).
 
+\subsection{Resultados e Avaliação do Modelo}
+
+Seguindo a estrutura previamente definida, o modelo final foi treinado ao longo de 40 épocas, utilizando a arquitetura convolucional 
+descrita anteriormente. O conjunto de dados, após o processamento, totalizou 1.124 imagens distribuídas em 8 classes, correspondentes 
+aos valores de 1 a 8. A divisão foi realizada de forma balanceada por classe, com 80\% das imagens destinadas ao treinamento (895 amostras) 
+e 20\% à validação (179 amostras), utilizando embaralhamento fixo para garantir reprodutibilidade.
+
+A avaliação do desempenho teve como métrica principal a acurácia. A função de perda escolhida foi a \textit{Sparse Categorical Crossentropy}, 
+apropriada para problemas de classificação multiclasse com rótulos inteiros. Já o otimizador utilizado foi o Adam, com taxa de aprendizado 
+ajustada para 0{,}0006, visando maior estabilidade no processo de aprendizagem.
+
+A Figura~\ref{fig:accuracy-40-epochs} apresenta a evolução da acurácia durante as 40 épocas, tanto para os dados de treinamento
+quanto de validação. Observa-se uma tendência de crescimento contínuo no desempenho sobre o conjunto de treinamento, enquanto a 
+validação estabiliza a partir da 30ª época — indicando que o modelo atingiu um ponto de convergência satisfatório.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figuras/Accuracy40Epochs.png}
+\caption[Evolução da acurácia durante o treinamento]{
+\centering
+Evolução da acurácia de treinamento e validação ao longo das épocas, indicando a progressiva capacidade de generalização do modelo. \par
+\textit{Fonte: Autoria própria.}}
+\label{fig:accuracy-40-epochs}
+\end{figure}
+
+Complementando a análise, a Figura~\ref{fig:loss-40-epochs} mostra a redução contínua da função de perda ao longo do treinamento. 
+A perda sobre o conjunto de validação se estabilizou em torno de 0{,}95, sem apresentar variações abruptas ou tendência de crescimento, 
+o que reforça a ausência de sobreajuste (\textit{overfitting}) significativo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figuras/Loss40Epochs.png}
+\caption[Evolução da perda durante o treinamento]{
+\centering
+Evolução da perda de treinamento e validação, evidenciando um comportamento estável do modelo e ausência de sobreajuste severo. \par
+\textit{Fonte: Autoria própria.}}
+\label{fig:loss-40-epochs}
+\end{figure}
+
+Ao final do treinamento, o modelo alcançou acurácia de aproximadamente 84\% no conjunto de treinamento e 72\% no conjunto de validação.
+Esses resultados demonstram desempenho satisfatório, considerando a variedade visual presente nas imagens — com diferentes ângulos, 
+condições de iluminação e estilos de dados — e as limitações impostas pelo tamanho reduzido da base.
+
+Para uma análise mais detalhada, foi construída a matriz de confusão (Figura~\ref{fig:confusion-matrix}), que permite observar a 
+distribuição dos acertos e erros por classe. Nota-se que o modelo obteve desempenho positivo na maior parte das classes, embora erros 
+mais frequentes tenham ocorrido entre os dígitos 1 e 2, e entre 6 e 7 — provavelmente devido à similaridade visual desses números sob 
+determinados ângulos ou em condições adversas de iluminação.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figuras/confusionMatrix40Epochs.png}
+\caption[Matriz de confusão do modelo]{
+\centering
+Matriz de confusão do modelo treinado, evidenciando os acertos e erros por classe. \par
+\textit{Fonte: Autoria própria.}}
+\label{fig:confusion-matrix}
+\end{figure}
+
+Além da avaliação quantitativa, uma análise qualitativa foi conduzida com o intuito de observar a robustez do modelo frente a 
+variações reais nas imagens. Em geral, os resultados foram consistentes, mesmo diante de mudanças moderadas de orientação ou iluminação. 
+Contudo, algumas limitações ainda persistem em casos de oclusão parcial dos números, presença de reflexos ou baixo contraste entre os 
+dígitos e o fundo do dado, o que dificulta a generalização.
+
+\subsection{Considerações Finais}
+
+Os experimentos realizados confirmam a viabilidade da aplicação de redes neurais convolucionais no reconhecimento automático de valores 
+em dados físicos de RPG. A acurácia de 72\% obtida na validação, aliada à estabilidade do treinamento e à ausência de sobreajuste crítico, 
+indica que o modelo conseguiu aprender padrões relevantes mesmo com uma base limitada.
+
+A abordagem adotada seguiu um processo iterativo e fundamentado, com diversos ajustes ao longo do desenvolvimento. Destacam-se, 
+nesse contexto, a importância de uma boa divisão dos dados, da escolha adequada da arquitetura e da rejeição de estratégias que 
+não apresentaram resultados satisfatórios, como certos métodos de aumento de dados e pré-processamentos agressivos.
+
+Para trabalhos futuros, algumas possibilidades promissoras incluem:
+\begin{itemize}
+\item A ampliação da base de dados, com maior número de imagens por classe e inserção de situações mais variadas, como ângulos 
+extremos ou iluminação irregular;
+\item A experimentação com modelos mais profundos ou baseados em \textit{transfer learning}, aproveitando redes pré-treinadas;
+\item A integração de reconhecimento óptico de caracteres (OCR) com segmentação automática de múltiplos dados presentes na mesma 
+imagem, visando aplicações práticas em sessões reais de jogo.
+\end{itemize}
+
+Dessa forma, o presente trabalho oferece uma contribuição relevante para o uso da visão computacional em jogos físicos, 
+propondo uma solução funcional e passível de expansão para o reconhecimento automatizado de valores em dados multifacetados.
