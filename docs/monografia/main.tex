@@ -14,10 +14,12 @@
 \onehalfspacing
 \usepackage{times} 
 \usepackage{fancyhdr}
+\usepackage{pdfpages}
 \pagestyle{fancy}
 \fancyhf{} % limpa os cabeçalhos
 \fancyhead[R]{\thepage}
-\renewcommand{\headrulewidth}{0pt} % remove a linha do cabeçalho
+\renewcommand{\headrulewidth}{0pt}
+\addto\captionsbrazil{\renewcommand{\listfigurename}{Lista de Ilustrações}}
 
 
 
@@ -28,6 +30,7 @@
 \begin{document}
 \begin{titlepage}
     \centering
+    \includegraphics[width=0.4\textwidth]{figuras/iftm.jpg}\par
     {\scshape\Large INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO TRIÂNGULO MINEIRO \par}
     \vfill
     {\Large Vinícius Silveira Bisinoto\par}
@@ -37,6 +40,7 @@
     {\large UBERABA - MG\par}
     {\large 2025\par}
 \end{titlepage}
+
 
 \begin{titlepage}
     \centering
@@ -50,13 +54,14 @@
             Trabalho de Conclusão de Curso apresentado ao Instituto Federal de Educação, 
             Ciência e Tecnologia do Triângulo Mineiro, Campus Uberaba Parque Tecnológico, 
             como requisito parcial para a conclusão do Curso de Engenharia da Computação.\\
-            Orientador: Prof. Dr. Marcelo Barreiro
+            Orientador: Prof. Dr. Marcelo da Silva Barreiro
         \end{minipage}
     \end{flushright}
     \vfill
     {\large UBERABA - MG\par}
     {\large2025\par}
 \end{titlepage}
+\includepdf{ficha.pdf}
 \pagenumbering{gobble}
 \begin{center}
     \Large\textbf{Agradecimentos}
@@ -102,7 +107,11 @@ da abordagem e sugerem possíveis aplicações em sessões híbridas ou automati
 \end{center}
 
 \noindent
-This work presents the development of a system based on convolutional neural networks (CNNs) to automatically recognize the values on the upper faces of physical RPG dice from images. Computer vision techniques were used, focusing on multiclass classification and image preprocessing. The architecture was trained on a custom-labeled image dataset. The obtained results demonstrate the viability of the approach and suggest possible applications in hybrid or automated RPG sessions.
+This work presents the development of a system based on convolutional neural networks (CNNs) to automatically 
+recognize the values on the upper faces of physical RPG dice from images. Computer vision techniques were used, 
+focusing on multiclass classification and image preprocessing. The architecture was trained on a custom-labeled 
+image dataset. The obtained results demonstrate the viability of the approach and suggest possible applications 
+in hybrid or automated RPG sessions.
 
 \vspace{0.5em}
 \noindent
